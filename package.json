@@ -10,6 +10,8 @@
     "native-base": "^2.1.2",
     "react": "16.0.0-alpha.6",
     "react-native": "0.43.3",
+    "react-native-tab-view": "0.0.58",
+    "react-native-vector-icons": "^4.0.1",
     "realm": "^1.2.0"
   },
   "devDependencies": {
