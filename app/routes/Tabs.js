@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Animated, View, Text, StyleSheet } from 'react-native';
 import { TabViewAnimated, TabBar } from 'react-native-tab-view';
 import Ionicons from 'react-native-vector-icons/FontAwesome';
-
+import Quests from './Quests';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -110,7 +110,7 @@ export default class Tabs extends Component {
   renderScene = ({ route }) => {
     switch (route.key) {
     case '1':
-      return <View style={[ styles.page, { backgroundColor: '#ff4081' } ]} />;
+      return <Quests/>;
     case '2':
       return <View style={[ styles.page, { backgroundColor: '#673ab7' } ]} />;
     case '3':

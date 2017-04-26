@@ -87,6 +87,13 @@
       <string>Skia.ttf</string>
       <string>Times New Roman.ttf</string>
       <string>Zocial.ttf</string>
+      <string>Pixel-Noir Caps.ttf</string>
+      <string>Pixel-Noir Skinny Caps.ttf</string>
+      <string>Pixel-Noir Skinny Short.ttf</string>
+      <string>Pixel-Noir Skinny.ttf</string>
+      <string>Pixel-Noir.ttf</string>
+      <string>MaterialCommunityIcons.ttf</string>
+      <string>SimpleLineIcons.ttf</string>
     </array>
   </dict>
 </plist>
