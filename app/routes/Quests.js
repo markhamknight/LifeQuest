@@ -65,21 +65,33 @@ const styles = StyleSheet.create({
   currentLvl: {
     fontFamily: 'Pixel-Noir Caps',
     fontSize: 7,
+    color: 'black',
+    textShadowColor: 'white',
+    textShadowOffset: {width: 1, height: 1},
+    textShadowRadius: 20,
   },
   playerName: {
     fontFamily: 'Pixel-Noir Caps',
     fontSize: 8,
+    color: 'black',
+    textShadowColor: 'white',
+    textShadowOffset: {width: 1, height: 1},
+    textShadowRadius: 20,
   },
   progressBarLabels: {
     fontFamily: 'Pixel-Noir Caps',
     textAlign:'right',
+    color: 'black',
+    textShadowColor: 'white',
+    textShadowOffset: {width: 1, height: 1},
+    textShadowRadius: 20,
   },
   questLabels: {
     fontFamily: 'Pixel-Noir Caps',
     color: 'white',
     padding: 10,
     fontSize: 25,
-     textDecorationLine: 'underline',
+    textDecorationLine: 'underline',
   },
   bottomContainer: {
     flex: 1,
@@ -224,7 +236,7 @@ export class Quests extends Component {
               <Content>
                 <Grid>    
                    <Row size={1}>
-                      <Image source={require('../assets/images/backgrounds/night.png')} style={styles.bg} resizeMode="cover">  
+                      <Image source={require('../assets/images/backgrounds/afternoon.png')} style={styles.bg} resizeMode="cover">  
                            <Col size={1} style={styles.avatarContainer}>
                               <Image source={require('../assets/images/avatars/avatar1.jpg')} style={styles.avatar} resizeMode="contain"/>  
                               <Text style={styles.playerName}>
