@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image, ListView} from 'react-native';
-import { Container, Content, Thumbnail, Button } from 'native-base';
+import { Container, Content, Thumbnail, Button, Badge } from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import * as Progress from 'react-native-progress';
@@ -72,19 +72,21 @@ const styles = StyleSheet.create({
   },
   progressBarLabels: {
     fontFamily: 'Pixel-Noir Caps',
+    textAlign:'right',
   },
   questLabels: {
     fontFamily: 'Pixel-Noir Caps',
     color: 'white',
     padding: 10,
     fontSize: 25,
+     textDecorationLine: 'underline',
   },
   bottomContainer: {
     flex: 1,
-    backgroundColor: 'black',
+    backgroundColor: '#204868',
     flexDirection: 'column',
     borderWidth: 5,
-    borderColor: 'blue',
+    borderColor: '#6080f8',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -101,17 +103,20 @@ const styles = StyleSheet.create({
     color: 'white',
     fontFamily: 'Pixel-Noir Skinny',
     fontSize: 10,
-    textDecorationLine: 'line-through',
   },
-  questDone: {
-    flex: 1,
+  questStatus: {
+    color: 'white',
+    fontFamily: 'Pixel-Noir Skinny',
+    fontSize: 8,
+    textAlign: 'center',
   },
-  questSkip: {
+  questButton: {
     flex: 1,
+    marginRight: 5,
   },
   questDoneText: {
     fontFamily: 'Pixel-Noir',
-    fontSize: 6,
+    fontSize: 10,
     padding: 0,
     margin: 0,
   },
@@ -120,6 +125,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     opacity: 0.7,
   },
+  rowContainer:{
+    flex:1,
+    flexDirection:'row',
+    padding:10,
+    justifyContent:'center',
+    alignItems:'center',
+  }
 
 })
 export class Quests extends Component {
@@ -130,42 +142,72 @@ export class Quests extends Component {
         xpProgress: 0.5,
         hpProgress: 0.75,
         manaProgress: 0.25,
-        buttonPressed: [false,false,false,false,false],
+        buttonPressed: [false,false,false,true,false],
         dataSource: ds.cloneWithRows(tasks),
       };
-      this.test = this.test.bind(this);
+      this.handleButtonPress = this.handleButtonPress.bind(this);
+      this.renderButtons = this.renderButtons.bind(this);
     }
-    test(id){
+    handleButtonPress(id){
       var copy = this.state.buttonPressed;
       copy[id] = !copy[id];
       this.setState({
         buttonPressed: copy,
+        dataSource: ds.cloneWithRows(tasks),
       })
-      console.warn(this.state.buttonPressed);
     };
-    renderRow(data,rowID){
-      return (
-          <View style={{flex:1,flexDirection:'row',padding:10,justifyContent:'center',alignItems:'center'}}>
-            <View style={{flex:6}}>  
-              <Text style={styles.questTitle}>      
-                {data.title}  
-              </Text>    
-            </View>  
-            <View style={{marginRight:5}}>
-                <Button small success iconLeft>  
-                  <Icon name='check' />  
-                  <Text style={styles.questDoneText}>      
-                    Done        
+    renderButtons(id) {
+      var rowID = id;
+      if(this.state.buttonPressed[id]) {
+        return (
+          <View>
+                <Button small warning iconRight onPress={()=>this.handleButtonPress(id)}>  
+                  <Text style={styles.questDoneText}>
+                    Undo        
                   </Text>
+                  <Icon name='undo' />  
                 </Button>  
-            </View>     
-            <View>  
-              <Button small danger iconLeft style={styles.questButtons}>      
-                <Icon name='remove' />  
-                <Text style={styles.questDoneText}>      
-                  Skip        
+            </View>    
+          );
+      } else {
+        return (
+            <View style={{flexDirection: 'row'}}>
+              <View>    
+                <Button small success iconRight onPress={()=>this.handleButtonPress(id)}>      
+                  <Text style={styles.questDoneText}>          
+                    done            
+                  </Text>
+                  <Icon name='check' />   
+                </Button>
+              </View>  
+              <View>    
+                  <Button small danger iconRight onPress={()=>this.handleButtonPress(id)}>      
+                    <Text style={styles.questDoneText}>          
+                      skip            
+                    </Text>    
+                    <Icon name='remove' />      
+                  </Button>   
+              </View>   
+            </View>
+          ); 
+      }
+    };
+
+    renderRow(rowData, sectionID, rowID, highlightRow){
+      let id = rowID;
+      let content = this.renderButtons(rowID);
+      return (
+          <View style={{flexDirection:'column',flex:1}}>
+            <Text style={styles.questStatus}>
+              {rowData.status} 
+            </Text>
+            <View style={styles.rowContainer}>  
+              <View style={styles.questTitleContainer}>  
+                <Text style={[styles.questTitle, this.state.buttonPressed[id] ? {   textDecorationLine: 'line-through'}:{}]}>        
+                  {rowData.title}    
                 </Text>      
-              </Button>    
+              </View>  
+              {content}   
             </View>  
           </View>
       );
@@ -182,9 +224,9 @@ export class Quests extends Component {
               <Content>
                 <Grid>    
                    <Row size={1}>
-                      <Image source={require('../assets/images/backgrounds/latemorning.png')} style={styles.bg} resizeMode="cover">  
+                      <Image source={require('../assets/images/backgrounds/night.png')} style={styles.bg} resizeMode="cover">  
                            <Col size={1} style={styles.avatarContainer}>
-                              <Image source={require('../assets/images/avatars/default.png')} style={styles.avatar} resizeMode="contain"/>  
+                              <Image source={require('../assets/images/avatars/avatar1.jpg')} style={styles.avatar} resizeMode="contain"/>  
                               <Text style={styles.playerName}>
                                 Markhamknight
                               </Text>
@@ -225,10 +267,10 @@ export class Quests extends Component {
                           <Text style={styles.questLabels}>
                             Quests:
                           </Text>
-                          <View style={{flexDirection:'row',padding:10,flex:1}} >
+                          <View style={styles.quests} >
                             <ListView  
                                 dataSource={this.state.dataSource}  
-                                renderRow={this.renderRow}  
+                                renderRow={this.renderRow.bind(this)}  
                                 renderSeparator={this.renderSeparator}  
                             />
                           </View>
