@@ -16,22 +16,22 @@ const tasks = [
   },
   {
     title: 'Quest 2',
-    status: 'ongoing',
+    status: 'skipped',
     date: '5-3-2017',
   },
   {
     title: 'Quest 3',
-    status: 'ongoing',
+    status: 'completed',
     date: '5-3-2017',
   },
   {
     title: 'Quest 4',
-    status: 'ongoing',
+    status: 'skipped',
     date: '5-3-2017',
   },
   {
     title: 'Quest 5',
-    status: 'ongoing',
+    status: 'completed',
     date: '5-3-2017',
   }
 ]
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
   questLabels: {
     fontFamily: 'Pixel-Noir Caps',
     color: 'white',
-    padding: 10,
+    padding: 7,
     fontSize: 25,
     textDecorationLine: 'underline',
   },
@@ -105,37 +105,39 @@ const styles = StyleSheet.create({
   quests: {
     flex: 1,
     flexDirection: 'row',
-    padding: 10,
   },
   questTitleContainer: {
     flex: 6,
     marginLeft: 5,
+    flexWrap: 'wrap',
   },
   questTitle: {
     color: 'white',
-    fontFamily: 'Pixel-Noir Skinny',
-    fontSize: 10,
+    fontFamily: 'Pixel-Noir Skinny Short',
+    fontSize: 9,
   },
   questStatus: {
     color: 'white',
-    fontFamily: 'Pixel-Noir Skinny',
-    fontSize: 8,
-    textAlign: 'center',
+    fontFamily: 'Pixel-Noir Skinny Caps',
+    fontSize: 6,
+    textAlign: 'right',
+    flexWrap: 'wrap',
+    marginRight: 15,
+    marginTop: 5,
   },
   questButton: {
     flex: 1,
     marginRight: 5,
   },
   questDoneText: {
-    fontFamily: 'Pixel-Noir',
-    fontSize: 10,
-    padding: 0,
-    margin: 0,
+    fontFamily: 'Pixel-Noir Skinny Caps',
+    fontSize: 7,
+    color: 'black'
   },
   separator: {
     height: 0.5,
     backgroundColor: '#FFFFFF',
-    opacity: 0.7,
+    opacity: 1,
   },
   rowContainer:{
     flex:1,
@@ -166,6 +168,7 @@ export class Quests extends Component {
       this.setState({
         buttonPressed: copy,
         dataSource: ds.cloneWithRows(tasks),
+        xpProgress: this.state.xpProgress+0.1,
       })
     };
     renderButtons(id) {
@@ -236,7 +239,7 @@ export class Quests extends Component {
               <Content>
                 <Grid>    
                    <Row size={1}>
-                      <Image source={require('../assets/images/backgrounds/afternoon.png')} style={styles.bg} resizeMode="cover">  
+                      <Image source={require('../assets/images/backgrounds/night.png')} style={styles.bg} resizeMode="cover">  
                            <Col size={1} style={styles.avatarContainer}>
                               <Image source={require('../assets/images/avatars/avatar1.jpg')} style={styles.avatar} resizeMode="contain"/>  
                               <Text style={styles.playerName}>

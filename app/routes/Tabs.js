@@ -19,9 +19,9 @@ const styles = StyleSheet.create({
   },
   indicator: {
     flex: 1,
-    backgroundColor: '#0084ff',
+    backgroundColor:'black',
     margin: 4,
-    borderRadius: 2,
+    borderRadius: 0,
   },
   badge: {
     marginTop: 4,
