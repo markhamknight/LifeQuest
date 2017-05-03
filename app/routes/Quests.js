@@ -1,9 +1,40 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
-import { Container, Content, Thumbnail, ListItem, CheckBox } from 'native-base';
+import { View, Text, StyleSheet, Image, ListView} from 'react-native';
+import { Container, Content, Thumbnail, Button } from 'native-base';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import * as Progress from 'react-native-progress';
-
+const ds = new ListView.DataSource({
+  rowHasChanged: (r1, r2) => r1 !== r2,
+  sectionHeaderHasChanged: (s1, s2) => s1 !== s2
+});
+const tasks = [
+  {
+    title: 'Quest 1',
+    status: 'ongoing',
+    date: '5-3-2017',
+  },
+  {
+    title: 'Quest 2',
+    status: 'ongoing',
+    date: '5-3-2017',
+  },
+  {
+    title: 'Quest 3',
+    status: 'ongoing',
+    date: '5-3-2017',
+  },
+  {
+    title: 'Quest 4',
+    status: 'ongoing',
+    date: '5-3-2017',
+  },
+  {
+    title: 'Quest 5',
+    status: 'ongoing',
+    date: '5-3-2017',
+  }
+]
 const styles = StyleSheet.create({
   bg: {
     flex: 1,
@@ -16,6 +47,8 @@ const styles = StyleSheet.create({
     flex: 1,
     width: null,
     height: null,
+    padding: 30,
+    resizeMode: 'stretch',
   },
   bars : {
     marginBottom: 0,
@@ -43,7 +76,51 @@ const styles = StyleSheet.create({
   questLabels: {
     fontFamily: 'Pixel-Noir Caps',
     color: 'white',
-  }
+    padding: 10,
+    fontSize: 25,
+  },
+  bottomContainer: {
+    flex: 1,
+    backgroundColor: 'black',
+    flexDirection: 'column',
+    borderWidth: 5,
+    borderColor: 'blue',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  quests: {
+    flex: 1,
+    flexDirection: 'row',
+    padding: 10,
+  },
+  questTitleContainer: {
+    flex: 6,
+    marginLeft: 5,
+  },
+  questTitle: {
+    color: 'white',
+    fontFamily: 'Pixel-Noir Skinny',
+    fontSize: 10,
+    textDecorationLine: 'line-through',
+  },
+  questDone: {
+    flex: 1,
+  },
+  questSkip: {
+    flex: 1,
+  },
+  questDoneText: {
+    fontFamily: 'Pixel-Noir',
+    fontSize: 6,
+    padding: 0,
+    margin: 0,
+  },
+  separator: {
+    height: 0.5,
+    backgroundColor: '#FFFFFF',
+    opacity: 0.7,
+  },
+
 })
 export class Quests extends Component {
 
@@ -53,17 +130,61 @@ export class Quests extends Component {
         xpProgress: 0.5,
         hpProgress: 0.75,
         manaProgress: 0.25,
+        buttonPressed: [false,false,false,false,false],
+        dataSource: ds.cloneWithRows(tasks),
       };
+      this.test = this.test.bind(this);
     }
+    test(id){
+      var copy = this.state.buttonPressed;
+      copy[id] = !copy[id];
+      this.setState({
+        buttonPressed: copy,
+      })
+      console.warn(this.state.buttonPressed);
+    };
+    renderRow(data,rowID){
+      return (
+          <View style={{flex:1,flexDirection:'row',padding:10,justifyContent:'center',alignItems:'center'}}>
+            <View style={{flex:6}}>  
+              <Text style={styles.questTitle}>      
+                {data.title}  
+              </Text>    
+            </View>  
+            <View style={{marginRight:5}}>
+                <Button small success iconLeft>  
+                  <Icon name='check' />  
+                  <Text style={styles.questDoneText}>      
+                    Done        
+                  </Text>
+                </Button>  
+            </View>     
+            <View>  
+              <Button small danger iconLeft style={styles.questButtons}>      
+                <Icon name='remove' />  
+                <Text style={styles.questDoneText}>      
+                  Skip        
+                </Text>      
+              </Button>    
+            </View>  
+          </View>
+      );
+    };
+    renderSeparator(sectionId, rowId) {
+      return (
+        <View key={rowId} style={styles.separator} />
+      )
+    }
+
     render() {
         return (
           <Container>
               <Content>
                 <Grid>    
-                   <Row size={3}>
-                      <Image source={require('../images/backgrounds/latemorning.png')} style={styles.bg} resizeMode="cover">  
+                   <Row size={1}>
+                      <Image source={require('../assets/images/backgrounds/latemorning.png')} style={styles.bg} resizeMode="cover">  
                            <Col size={1} style={styles.avatarContainer}>
-                              <Image source={require('../images/avatars/default.png')} style={styles.avatar} resizeMode="contain"/>  
+                              <Image source={require('../assets/images/avatars/default.png')} style={styles.avatar} resizeMode="contain"/>  
                               <Text style={styles.playerName}>
                                 Markhamknight
                               </Text>
@@ -99,18 +220,20 @@ export class Quests extends Component {
                             </Col>  
                       </Image>   
                     </Row>
-                   <Row size={4} style={{backgroundColor:'black'}}>    
-                      <Image source={require('../images/backgrounds/board.png')} style={styles.bg2} resizeMode="cover">  
-                      <Row size={1}>
-                        <Text style={styles.questLabels}>  
-                          QUESTS  
-                        </Text>  
-                      </Row>
-                      <Row size={5}>
-                        
-                      </Row>
-                      </Image>
-                   </Row>    
+                     <Row size={3}>
+                        <View style={styles.bottomContainer}>
+                          <Text style={styles.questLabels}>
+                            Quests:
+                          </Text>
+                          <View style={{flexDirection:'row',padding:10,flex:1}} >
+                            <ListView  
+                                dataSource={this.state.dataSource}  
+                                renderRow={this.renderRow}  
+                                renderSeparator={this.renderSeparator}  
+                            />
+                          </View>
+                        </View>
+                     </Row>    
                 </Grid>    
               </Content>
           </Container>
