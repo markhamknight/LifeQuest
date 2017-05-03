@@ -1,0 +1,67 @@
+Chores
+	Wash the dishes.
+	Water the plants.
+	Clean your room.
+	Clean the house.
+	Do the laundry.
+	Clean your bed.
+	Do the groceries.
+	Feed the pets.
+	Fix your closet.
+	Mop the house.
+
+Education
+	Read a novel.
+	Advance read in a subject.
+	Do your assignments.
+	Learn new history.
+	Play chess.
+	Practice some math.
+	Understand some art.
+	Reread past lessons.
+	Sharpen skills.
+	Play memory games.
+
+Health
+	Eat some fruit/s.
+	Jog for a mile.
+	Learn a new sport.
+	Do yoga.
+	Have a nap.
+	Drink a glass of water.
+	Work out.
+	Eat some veggies.
+	Take your vitamins.
+	Take a casual swim.
+	Brisk walk.
+
+
+Recreation
+	Watch the sunset.
+	Watch a movie.
+	Go to a park.
+	Go to the beach.
+	Go fishing.
+	Plant a garden.
+	Go dancing.
+	Bake a cake.
+	Hang out with friends.
+	Bake a cake. 
+
+Social
+	Make a new friend.		
+	Smile to someone.		
+	Greet a stranger.		
+	Rapport with anyone.	
+	Help someone in need.
+	Compliment someone.
+	Have a logical debate.
+	Do someone a favor.
+	Food trip with a friend
+	Play some sports.
+
+
+
+
+
+
