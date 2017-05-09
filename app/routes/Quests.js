@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, ListView} from 'react-native';
+import { View, Text, StyleSheet, Image, ListView, TouchableOpacity} from 'react-native';
 import { Container, Content, Thumbnail, Button, Badge } from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Col, Row, Grid } from 'react-native-easy-grid';
@@ -91,11 +91,15 @@ const styles = StyleSheet.create({
     color: 'white',
     padding: 7,
     fontSize: 25,
-    textDecorationLine: 'underline',
+    backgroundColor: rgb(32, 72, 104,1),
+    textAlign: 'center',
+    borderWidth: 3,
+    borderColor: '#6080f8'
   },
   bottomContainer: {
     flex: 1,
-    backgroundColor: '#204868',
+    // backgroundColor: '#204868',
+    backgroundColor: rgb(32, 72, 104,0.9),
     flexDirection: 'column',
     borderWidth: 5,
     borderColor: '#6080f8',
@@ -125,14 +129,11 @@ const styles = StyleSheet.create({
     marginRight: 15,
     marginTop: 5,
   },
-  questButton: {
-    flex: 1,
-    marginRight: 5,
-  },
-  questDoneText: {
+  questButtonText: {
     fontFamily: 'Pixel-Noir Skinny Caps',
     fontSize: 7,
-    color: 'black'
+    color: 'black',
+    padding: 5,
   },
   separator: {
     height: 0.5,
@@ -176,32 +177,32 @@ export class Quests extends Component {
       if(this.state.buttonPressed[id]) {
         return (
           <View>
-                <Button small warning iconRight onPress={()=>this.handleButtonPress(id)}>  
-                  <Text style={styles.questDoneText}>
-                    Undo        
+              <TouchableOpacity onPress={()=>this.handleButtonPress(id)}>
+                  <Text style={[styles.questButtonText,{backgroundColor:'#F0AD4F'}]}>
+                     undo
+                     <Icon name='undo' /> 
                   </Text>
-                  <Icon name='undo' />  
-                </Button>  
+               </TouchableOpacity>
             </View>    
           );
       } else {
         return (
             <View style={{flexDirection: 'row'}}>
               <View>    
-                <Button small success iconRight onPress={()=>this.handleButtonPress(id)}>      
-                  <Text style={styles.questDoneText}>          
-                    done            
+                <TouchableOpacity onPress={()=>this.handleButtonPress(id)}>
+                  <Text style={[styles.questButtonText,{backgroundColor:'#5CB75C'}]}>
+                     done
+                     <Icon name='check' /> 
                   </Text>
-                  <Icon name='check' />   
-                </Button>
+                </TouchableOpacity>
               </View>  
               <View>    
-                  <Button small danger iconRight onPress={()=>this.handleButtonPress(id)}>      
-                    <Text style={styles.questDoneText}>          
-                      skip            
-                    </Text>    
-                    <Icon name='remove' />      
-                  </Button>   
+                <TouchableOpacity onPress={()=>this.handleButtonPress(id)}>
+                  <Text style={[styles.questButtonText,{backgroundColor:'#D9534F'}]}>
+                     skip
+                     <Icon name='remove' /> 
+                  </Text>
+                </TouchableOpacity>  
               </View>   
             </View>
           ); 
@@ -277,11 +278,11 @@ export class Quests extends Component {
                             </Col>  
                       </Image>   
                     </Row>
-                     <Row size={3}>
+                     <Row size={3} style={{flexDirection:'column'}}>
+                        <Text style={styles.questLabels}>
+                          Quests:
+                        </Text>
                         <View style={styles.bottomContainer}>
-                          <Text style={styles.questLabels}>
-                            Quests:
-                          </Text>
                           <View style={styles.quests} >
                             <ListView  
                                 dataSource={this.state.dataSource}  
