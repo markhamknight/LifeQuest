@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, ListView} from 'react-native';
+import { View, Text, StyleSheet, Image, ListView, TouchableOpacity} from 'react-native';
 import { Container, Content, Thumbnail, Button, Badge } from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Col, Row, Grid } from 'react-native-easy-grid';
@@ -16,22 +16,22 @@ const tasks = [
   },
   {
     title: 'Quest 2',
-    status: 'ongoing',
+    status: 'skipped',
     date: '5-3-2017',
   },
   {
     title: 'Quest 3',
-    status: 'ongoing',
+    status: 'completed',
     date: '5-3-2017',
   },
   {
     title: 'Quest 4',
-    status: 'ongoing',
+    status: 'skipped',
     date: '5-3-2017',
   },
   {
     title: 'Quest 5',
-    status: 'ongoing',
+    status: 'completed',
     date: '5-3-2017',
   }
 ]
@@ -89,13 +89,17 @@ const styles = StyleSheet.create({
   questLabels: {
     fontFamily: 'Pixel-Noir Caps',
     color: 'white',
-    padding: 10,
+    padding: 7,
     fontSize: 25,
-    textDecorationLine: 'underline',
+    backgroundColor: rgb(32, 72, 104,1),
+    textAlign: 'center',
+    borderWidth: 3,
+    borderColor: '#6080f8'
   },
   bottomContainer: {
     flex: 1,
-    backgroundColor: '#204868',
+    // backgroundColor: '#204868',
+    backgroundColor: rgb(32, 72, 104,0.9),
     flexDirection: 'column',
     borderWidth: 5,
     borderColor: '#6080f8',
@@ -105,37 +109,36 @@ const styles = StyleSheet.create({
   quests: {
     flex: 1,
     flexDirection: 'row',
-    padding: 10,
   },
   questTitleContainer: {
     flex: 6,
     marginLeft: 5,
+    flexWrap: 'wrap',
   },
   questTitle: {
     color: 'white',
-    fontFamily: 'Pixel-Noir Skinny',
-    fontSize: 10,
+    fontFamily: 'Pixel-Noir Skinny Short',
+    fontSize: 9,
   },
   questStatus: {
     color: 'white',
-    fontFamily: 'Pixel-Noir Skinny',
-    fontSize: 8,
-    textAlign: 'center',
+    fontFamily: 'Pixel-Noir Skinny Caps',
+    fontSize: 6,
+    textAlign: 'right',
+    flexWrap: 'wrap',
+    marginRight: 15,
+    marginTop: 5,
   },
-  questButton: {
-    flex: 1,
-    marginRight: 5,
-  },
-  questDoneText: {
-    fontFamily: 'Pixel-Noir',
-    fontSize: 10,
-    padding: 0,
-    margin: 0,
+  questButtonText: {
+    fontFamily: 'Pixel-Noir Skinny Caps',
+    fontSize: 7,
+    color: 'black',
+    padding: 5,
   },
   separator: {
     height: 0.5,
     backgroundColor: '#FFFFFF',
-    opacity: 0.7,
+    opacity: 1,
   },
   rowContainer:{
     flex:1,
@@ -166,6 +169,7 @@ export class Quests extends Component {
       this.setState({
         buttonPressed: copy,
         dataSource: ds.cloneWithRows(tasks),
+        xpProgress: this.state.xpProgress+0.1,
       })
     };
     renderButtons(id) {
@@ -173,32 +177,32 @@ export class Quests extends Component {
       if(this.state.buttonPressed[id]) {
         return (
           <View>
-                <Button small warning iconRight onPress={()=>this.handleButtonPress(id)}>  
-                  <Text style={styles.questDoneText}>
-                    Undo        
+              <TouchableOpacity onPress={()=>this.handleButtonPress(id)}>
+                  <Text style={[styles.questButtonText,{backgroundColor:'#F0AD4F'}]}>
+                     undo
+                     <Icon name='undo' /> 
                   </Text>
-                  <Icon name='undo' />  
-                </Button>  
+               </TouchableOpacity>
             </View>    
           );
       } else {
         return (
             <View style={{flexDirection: 'row'}}>
               <View>    
-                <Button small success iconRight onPress={()=>this.handleButtonPress(id)}>      
-                  <Text style={styles.questDoneText}>          
-                    done            
+                <TouchableOpacity onPress={()=>this.handleButtonPress(id)}>
+                  <Text style={[styles.questButtonText,{backgroundColor:'#5CB75C'}]}>
+                     done
+                     <Icon name='check' /> 
                   </Text>
-                  <Icon name='check' />   
-                </Button>
+                </TouchableOpacity>
               </View>  
               <View>    
-                  <Button small danger iconRight onPress={()=>this.handleButtonPress(id)}>      
-                    <Text style={styles.questDoneText}>          
-                      skip            
-                    </Text>    
-                    <Icon name='remove' />      
-                  </Button>   
+                <TouchableOpacity onPress={()=>this.handleButtonPress(id)}>
+                  <Text style={[styles.questButtonText,{backgroundColor:'#D9534F'}]}>
+                     skip
+                     <Icon name='remove' /> 
+                  </Text>
+                </TouchableOpacity>  
               </View>   
             </View>
           ); 
@@ -274,11 +278,11 @@ export class Quests extends Component {
                             </Col>  
                       </Image>   
                     </Row>
-                     <Row size={3}>
+                     <Row size={3} style={{flexDirection:'column'}}>
+                        <Text style={styles.questLabels}>
+                          Quests:
+                        </Text>
                         <View style={styles.bottomContainer}>
-                          <Text style={styles.questLabels}>
-                            Quests:
-                          </Text>
                           <View style={styles.quests} >
                             <ListView  
                                 dataSource={this.state.dataSource}  

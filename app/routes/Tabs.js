@@ -3,6 +3,7 @@ import { Animated, View, Text, StyleSheet } from 'react-native';
 import { TabViewAnimated, TabBar } from 'react-native-tab-view';
 import Ionicons from 'react-native-vector-icons/FontAwesome';
 import Quests from './Quests';
+import Logs from './Logs';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -19,9 +20,9 @@ const styles = StyleSheet.create({
   },
   indicator: {
     flex: 1,
-    backgroundColor: '#0084ff',
+    backgroundColor:'black',
     margin: 4,
-    borderRadius: 2,
+    borderRadius: 0,
   },
   badge: {
     marginTop: 4,
@@ -112,7 +113,7 @@ export default class Tabs extends Component {
     case '1':
       return <Quests/>;
     case '2':
-      return <View style={[ styles.page, { backgroundColor: '#673ab7' } ]} />;
+      return <Logs />;
     case '3':
       return <View style={[ styles.page, { backgroundColor: '#4caf50' } ]} />;
     default:
