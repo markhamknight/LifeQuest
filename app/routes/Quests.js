@@ -6,6 +6,7 @@ import { Col, Row, Grid } from 'react-native-easy-grid';
 import * as Progress from 'react-native-progress';
 import Init from '../helpers/Initial';
 import Tasks from '../helpers/Tasks';
+import Quest from '../helpers/Quests';
 const ds = new ListView.DataSource({
   rowHasChanged: (r1, r2) => r1 !== r2,
   sectionHeaderHasChanged: (s1, s2) => s1 !== s2
@@ -66,7 +67,7 @@ const styles = StyleSheet.create({
   },
   currentLvl: {
     fontFamily: 'Pixel-Noir Caps',
-    fontSize: 7,
+    fontSize: 12,
     color: 'black',
     textShadowColor: 'white',
     textShadowOffset: {width: 1, height: 1},
@@ -120,12 +121,12 @@ const styles = StyleSheet.create({
   questTitle: {
     color: 'white',
     fontFamily: 'Pixel-Noir Skinny Short',
-    fontSize: 9,
+    fontSize: 11,
   },
   questStatus: {
     color: 'white',
-    fontFamily: 'Pixel-Noir Skinny Caps',
-    fontSize: 6,
+    fontFamily: 'Pixel-Noir Caps',
+    fontSize: 7,
     textAlign: 'right',
     flexWrap: 'wrap',
     marginRight: 15,
@@ -159,30 +160,67 @@ export class Quests extends Component {
         xpProgress: 0.5,
         hpProgress: 0.75,
         manaProgress: 0.25,
-        buttonPressed: [false,false,false,true,false],
-        dataSource: ds.cloneWithRows(Tasks.generateTasks()),
+        buttonPressed: [true,false,true,false,false],
+        dataSource: ds.cloneWithRows(Quest.getQuestsForToday()),
       };
-      this.handleButtonPress = this.handleButtonPress.bind(this);
+      this.undoQuest = this.undoQuest.bind(this);
+      this.completeQuest = this.completeQuest.bind(this);
+      this.skipQuest = this.skipQuest.bind(this);
       this.renderButtons = this.renderButtons.bind(this);
       Init.initializeTasks();
       Init.initializeUser();
-      console.log(Tasks.generateTasks());
+      //Tasks.generateTasks();
     }
-    handleButtonPress(id){
+    undoQuest(id,qid){
       var copy = this.state.buttonPressed;
       copy[id] = !copy[id];
+      let data = {
+        id: qid,
+        status: 'ongoing',
+      };
+      Quest.updateQuest(data);
       this.setState({
         buttonPressed: copy,
-        dataSource: ds.cloneWithRows(Tasks.generateTasks()),
+        dataSource: ds.cloneWithRows(Quest.getQuestsForToday()),
+        xpProgress: this.state.xpProgress-0.1,
+      })
+    };
+    completeQuest(id,qid){
+      var copy = this.state.buttonPressed;
+      copy[id] = !copy[id];
+      let data = {
+        id: qid,
+        status: 'completed',
+      };
+      Quest.updateQuest(data);
+      this.setState({
+        buttonPressed: copy,
+        dataSource: ds.cloneWithRows(Quest.getQuestsForToday()),
         xpProgress: this.state.xpProgress+0.1,
       })
     };
-    renderButtons(id) {
-      var rowID = id;
+    skipQuest(id,qid){
+      var copy = this.state.buttonPressed;
+      copy[id] = !copy[id];
+      let data = {
+        id: qid,
+        status: 'skipped',
+      };
+      Quest.updateQuest(data);
+      this.setState({
+        buttonPressed: copy,
+        dataSource: ds.cloneWithRows(Quest.getQuestsForToday()),
+        xpProgress: this.state.xpProgress+0.1,
+        manaProgress: this.state.manaProgress-0.1,
+      })
+    };
+    renderButtons(rowID,questID) {
+      var id = rowID;
+      var qid = questID;
       if(this.state.buttonPressed[id]) {
         return (
           <View>
-              <TouchableOpacity onPress={()=>this.handleButtonPress(id)}>
+              <TouchableOpacity onPress={()=>this.undoQuest(id,qid)}>
                   <Text style={[styles.questButtonText,{backgroundColor:'#F0AD4F'}]}>
                      undo
                      <Icon name='undo' /> 
@@ -194,7 +232,7 @@ export class Quests extends Component {
         return (
             <View style={{flexDirection: 'row'}}>
               <View>    
-                <TouchableOpacity onPress={()=>this.handleButtonPress(id)}>
+                <TouchableOpacity onPress={()=>this.completeQuest(id,qid)}>
                   <Text style={[styles.questButtonText,{backgroundColor:'#5CB75C'}]}>
                      done
                      <Icon name='check' /> 
@@ -202,7 +240,7 @@ export class Quests extends Component {
                 </TouchableOpacity>
               </View>  
               <View>    
-                <TouchableOpacity onPress={()=>this.handleButtonPress(id)}>
+                <TouchableOpacity onPress={()=>this.skipQuest(id,qid)}>
                   <Text style={[styles.questButtonText,{backgroundColor:'#D9534F'}]}>
                      skip
                      <Icon name='remove' /> 
@@ -216,11 +254,11 @@ export class Quests extends Component {
 
     renderRow(rowData, sectionID, rowID, highlightRow){
       let id = rowID;
-      let content = this.renderButtons(rowID);
+      let content = this.renderButtons(rowID,rowData.id);
       return (
           <View style={{flexDirection:'column',flex:1}}>
-            <Text style={styles.questStatus}>
-              ongoing 
+            <Text style={[styles.questStatus, rowData.status == 'completed' ? {color: '#5CB75C'} : rowData.status == 'skipped' ? {color:'#D9534F'} : {}]}>
+              {rowData.status} 
             </Text>
             <View style={styles.rowContainer}>  
               <View style={styles.questTitleContainer}>  

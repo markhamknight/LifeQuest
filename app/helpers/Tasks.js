@@ -1,5 +1,6 @@
 import Realm from 'realm';
 import _ from 'lodash';
+import Quests from './Quests'
 let realm = new Realm({
   schema: 
   [
@@ -47,7 +48,6 @@ for(let i=0;i<tasks.length;i++) {
 let Tasks = {};
 
 Tasks.generateTasks = () => {
-    tasksForToday = [];
     selectedIndex = [];
     valid = false;
     let interest = user.interest;
@@ -60,12 +60,11 @@ Tasks.generateTasks = () => {
             let randomTask = Math.floor(Math.random() * tasksWithInterest.length);
             if(!selectedIndex.includes(randomTask)) {
                 selectedIndex.push(randomTask);
-                tasksForToday.push(tasksWithInterest[randomTask]);
+                Quests.addQuest(tasksWithInterest[randomTask]);
                 break;
             }
         }
     }
-    return tasksForToday;
 }
 
 
