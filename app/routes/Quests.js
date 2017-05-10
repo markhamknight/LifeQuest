@@ -4,6 +4,8 @@ import { Container, Content, Thumbnail, Button, Badge } from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import * as Progress from 'react-native-progress';
+import Init from '../helpers/Initial';
+import Tasks from '../helpers/Tasks';
 const ds = new ListView.DataSource({
   rowHasChanged: (r1, r2) => r1 !== r2,
   sectionHeaderHasChanged: (s1, s2) => s1 !== s2
@@ -158,17 +160,20 @@ export class Quests extends Component {
         hpProgress: 0.75,
         manaProgress: 0.25,
         buttonPressed: [false,false,false,true,false],
-        dataSource: ds.cloneWithRows(tasks),
+        dataSource: ds.cloneWithRows(Tasks.generateTasks()),
       };
       this.handleButtonPress = this.handleButtonPress.bind(this);
       this.renderButtons = this.renderButtons.bind(this);
+      Init.initializeTasks();
+      Init.initializeUser();
+      console.log(Tasks.generateTasks());
     }
     handleButtonPress(id){
       var copy = this.state.buttonPressed;
       copy[id] = !copy[id];
       this.setState({
         buttonPressed: copy,
-        dataSource: ds.cloneWithRows(tasks),
+        dataSource: ds.cloneWithRows(Tasks.generateTasks()),
         xpProgress: this.state.xpProgress+0.1,
       })
     };
@@ -215,12 +220,12 @@ export class Quests extends Component {
       return (
           <View style={{flexDirection:'column',flex:1}}>
             <Text style={styles.questStatus}>
-              {rowData.status} 
+              ongoing 
             </Text>
             <View style={styles.rowContainer}>  
               <View style={styles.questTitleContainer}>  
                 <Text style={[styles.questTitle, this.state.buttonPressed[id] ? {   textDecorationLine: 'line-through'}:{}]}>        
-                  {rowData.title}    
+                  {rowData.name}    
                 </Text>      
               </View>  
               {content}   
@@ -240,7 +245,7 @@ export class Quests extends Component {
               <Content>
                 <Grid>    
                    <Row size={1}>
-                      <Image source={require('../assets/images/backgrounds/night.png')} style={styles.bg} resizeMode="cover">  
+                      <Image source={require('../assets/images/backgrounds/lateafternoon.png')} style={styles.bg} resizeMode="cover">  
                            <Col size={1} style={styles.avatarContainer}>
                               <Image source={require('../assets/images/avatars/avatar1.jpg')} style={styles.avatar} resizeMode="contain"/>  
                               <Text style={styles.playerName}>
