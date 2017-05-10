@@ -236,7 +236,7 @@ export class Quests extends Component {
               <Content>
                 <Grid>    
                    <Row size={1}>
-                      <Image source={require('../assets/images/backgrounds/afternoon.png')} style={styles.bg} resizeMode="cover">  
+                      <Image source={require('../assets/images/backgrounds/night.png')} style={styles.bg} resizeMode="cover">  
                            <Col size={1} style={styles.avatarContainer}>
                               <Image source={require('../assets/images/avatars/avatar1.jpg')} style={styles.avatar} resizeMode="contain"/>  
                               <Text style={styles.playerName}>

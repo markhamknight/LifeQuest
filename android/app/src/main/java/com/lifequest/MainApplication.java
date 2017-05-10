@@ -3,6 +3,8 @@ package com.lifequest;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import io.realm.react.RealmReactPackage;
+import com.oblador.vectoricons.VectorIconsPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import io.realm.react.RealmReactPackage;
 import com.facebook.react.ReactNativeHost;
@@ -25,8 +27,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new VectorIconsPackage(),
-            new RealmReactPackage()
+            new RealmReactPackage(),
+            new VectorIconsPackage()
       );
     }
   };
