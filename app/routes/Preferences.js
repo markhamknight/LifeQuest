@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
+<<<<<<< HEAD
 import { View, Text, StyleSheet, Image, ListView, TouchableOpacity, Modal, TextInput} from 'react-native';
 import { Container, Content, Thumbnail, Button, Badge, Form, Item ,Label, Input} from 'native-base';
+=======
+import { View, Text, StyleSheet, Image, ListView, TouchableOpacity} from 'react-native';
+import { Container, Content, Thumbnail, Button, Badge, ListItem, CheckBox} from 'native-base';
+>>>>>>> 6e913c6870bcc02a97e9909e32cc9ad08e5b9f0f
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import * as Progress from 'react-native-progress';
@@ -11,7 +16,7 @@ const ds = new ListView.DataSource({
   sectionHeaderHasChanged: (s1, s2) => s1 !== s2
 });
 const styles = StyleSheet.create({
-   prefsContainer: {
+   prefsLabelContainer: {
       padding: 20,
       alignItems: 'center',
       justifyContent: 'center',
@@ -19,8 +24,8 @@ const styles = StyleSheet.create({
       borderColor: '#6080f8',
       backgroundColor: rgb(32, 72, 104,1),
       flexDirection: 'row',
+      flex:1
    },
-   
    prefsLabel: {
       fontFamily: 'Pixel-Noir Caps',
       fontSize: 25,
@@ -85,9 +90,18 @@ const styles = StyleSheet.create({
     fontSize: 8,
     color: 'green',
   }
+   prefsBottomContainer:{
+      padding: 20,
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderWidth: 5,
+      borderColor: '#6080f8',
+      backgroundColor: rgb(32, 72, 104,0.9),
+      flexDirection: 'row',
+      height: 420,
+      flex:6
 
-
-
+   },
 });
 export class Preferences extends Component {
 
@@ -181,6 +195,7 @@ export class Preferences extends Component {
 
         return (
             <Container>
+<<<<<<< HEAD
                <Content>
                   <Grid>
                     <Row size={1} style={styles.prefsContainer}>  
@@ -392,6 +407,35 @@ export class Preferences extends Component {
                      
                   </Modal>
                </Content>
+=======
+               <View style={styles.container}>
+                    <View style={styles.mainContainer}>
+
+                      <View style={styles.prefsLabelContainer}>
+                         <Text style={styles.prefsLabel}>
+                            Preferences
+                         </Text>
+                      </View>
+
+                      <View style={styles.prefsBottomContainer}>
+                        <View style={styles.insideContainer}>
+
+                          <View style={styles.profileContainer}>
+                            <Text style={styles.prefsLabel}>
+                            Profile
+                            </Text>
+                          </View>
+
+                          <View style={styles.prefContainer}>
+                            
+                          </View>
+
+                        </View>
+                      </View>
+
+                    </View>
+               </View>
+>>>>>>> 6e913c6870bcc02a97e9909e32cc9ad08e5b9f0f
             </Container>
         );
     }
