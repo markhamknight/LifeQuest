@@ -67,6 +67,7 @@ Quests.getQuestsForTodayButtons = () => {
     return quests;
 }
 
+
 Quests.updateQuest = (data) => {
     let filter = "id = "+data.id;
     let quest = realm.objects('Quests').filtered(filter)[0];
@@ -122,5 +123,52 @@ Quests.updateMissedQuests = () => {
 
 }
 
+Quests.getMissedQuest = () =>{
+    let filter = "status = 'missed' ";
+    let missedQuests = realm.objects('Quests').filtered(filter);
+    let allQuests = realm.objects('Quests');
+    let missedPercentage = (missedQuests.length/allQuests.length);
+    return missedPercentage;
+}
+
+Quests.getCompletedQuest = () =>{
+    let filter = "status = 'completed' ";
+    let completedQuests = realm.objects('Quests').filtered(filter);
+    let allQuests = realm.objects('Quests');
+    let completedPercentage = (completedQuests.length/allQuests.length);
+    return completedPercentage;
+
+    
+}
+
+Quests.getSkippedQuest = () =>{
+    let filter = "status = 'skipped' ";
+    let skippedQuests = realm.objects('Quests').filtered(filter);
+    let allQuests = realm.objects('Quests');
+    let skippedPercentage = (skippedQuests.length/allQuests.length);
+    return skippedPercentage;
+
+
+    
+}
+
+Quests.getAllQuests= () => {
+        let quests = realm.objects('Quests');
+        let allQuests = [];
+        let questMap = {}; // Create the blank map
+        for (let i=0; i < quests.length; i++) {
+          allQuests.push(quests[i]);
+        }
+      //  console.log(allExpenses);
+      allQuests.forEach(function(quest) {
+            if (!questMap[quest.status]) {
+                questMap[quest.status] = [];
+            }
+            questMap[quest.status].push(quest);
+        
+
+    }); 
+      return questMap;
+  }
 
 module.exports = Quests;
