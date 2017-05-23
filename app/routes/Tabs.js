@@ -3,6 +3,7 @@ import { Animated, View, Text, StyleSheet } from 'react-native';
 import { TabViewAnimated, TabBar } from 'react-native-tab-view';
 import Ionicons from 'react-native-vector-icons/FontAwesome';
 import Quests from './Quests';
+import Preferences from './Preferences';
 import Logs from './Logs';
 import Misc from '../helpers/Misc';
 const styles = StyleSheet.create({
@@ -116,9 +117,9 @@ export default class Tabs extends Component {
       console.log(image);
       return <Quests data={image}/>;
     case '2':
-      return <Logs />;
+      return <Logs/>
     case '3':
-      return <View style={[ styles.page, { backgroundColor: '#4caf50' } ]} />;
+      return <Preferences/>;
     default:
       return null;
     }

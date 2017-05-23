@@ -56,9 +56,18 @@ const styles = StyleSheet.create({
 
    bottomLabel:{
       fontFamily: 'Pixel-Noir Skinny Caps',
-      fontSize: 6,
+      fontSize: 10,
       color: 'white',
       textAlign: 'center'
+   },
+
+   taskList:{
+      fontFamily: 'Pixel-Noir Skinny Caps',
+      fontSize: 5,
+      color: 'white',
+      textAlign: 'center',
+      height: 260
+
    }
 
 
@@ -80,60 +89,97 @@ export class Logs extends Component {
                             Quest Logs
                          </Text>
                       </Row>
-                      <Row size={1} style={styles.bottomContainer}>
+
+                      <Row style={styles.bottomContainer}>
                         <Row>
                         <Grid>
                           <Col size={1}>
                             <Progress.Pie progress={0.1} size={50}  size={110}/>
                              <Text style={styles.gridLabel}>
-                                Completed
+                                
                             </Text>
                           </Col>
                           <Col size={1} >
                             <Progress.Pie progress={0.5} size={50} showsText={true} size={110}/>
                             <Text style={styles.gridLabel}>
-                                Missed
+                                
                             </Text>
                           </Col>
                           <Col size={1}>
                             <Progress.Pie progress={0.75} size={50} showsText={true} size={110}/>
                             <Text style={styles.gridLabel}>
-                                Skipped
+                                
                             </Text>
                           </Col>
                         </Grid>
                       </Row>
                      
-                      <Row size={5}>
-                       
-                        <View>
-                          <Text style={styles.bottomLabel}>
-                            Completed
-                          </Text>
-                        </View>
+                      <Row>
+                         <Col size={1}>
+                            <View>
+                              <Text style={styles.bottomLabel}>
+                                Completed
+                              </Text>
+                            </View>
+                          </Col>
+                        <Col size={1}>
+                          <View>
+                            <Text style={styles.bottomLabel}>
+                              Missed
+                            </Text>
+                          </View>
+                        </Col>
 
+                        <Col size={1}>
+                          <View>
+                            <Text style={styles.bottomLabel}>
+                            Skipped
+                            </Text>
+                          </View>
+                        </Col>
+                      </Row>
 
-                        <View>
-                          <Text style={styles.bottomLabel}>
-                            Missed
+                      <Row size={3}>
+                        <Col size={1}>
+                          <View>
+                            <Text style={styles.taskList}>
+                              
+                              Completed Tasks
+
+                            </Text>
+
+                          </View>
+                        </Col>
+
+                        <Col size={1}>
+                          <View>
+                            <Text style={styles.taskList}>
                             
-                          </Text>
-                        </View>
-                        <View>
-                          <Text style={styles.bottomLabel}>
-                          Skipped
-                          </Text>
-                        </View>
-                        
+                            Missed Tasks
 
-                                           
+                            </Text>
+                          </View>
+                        </Col>
+
+                        <Col size={1}>
+                          <View>
+                            <Text style={styles.taskList}>
+                            
+                            Skipped Tasks
+
+                            </Text>
+                          </View>
+                        </Col>
+
+
                       </Row>
 
-                      </Row>
-                      
-               </Content>
+
+                
+                </Row>
+              </Content>
             </Container>
         );
     }
 }
-module.exports = Logs
+module.exports = Logs;
