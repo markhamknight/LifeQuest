@@ -1,11 +1,6 @@
 import React, { Component } from 'react';
-<<<<<<< HEAD
 import { View, Text, StyleSheet, Image, ListView, TouchableOpacity, Modal, TextInput} from 'react-native';
 import { Container, Content, Thumbnail, Button, Badge, Form, Item ,Label, Input} from 'native-base';
-=======
-import { View, Text, StyleSheet, Image, ListView, TouchableOpacity} from 'react-native';
-import { Container, Content, Thumbnail, Button, Badge, ListItem, CheckBox} from 'native-base';
->>>>>>> 6e913c6870bcc02a97e9909e32cc9ad08e5b9f0f
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import * as Progress from 'react-native-progress';
@@ -89,7 +84,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Pixel-Noir Caps',
     fontSize: 8,
     color: 'green',
-  }
+  },
    prefsBottomContainer:{
       padding: 20,
       alignItems: 'center',
@@ -195,7 +190,6 @@ export class Preferences extends Component {
 
         return (
             <Container>
-<<<<<<< HEAD
                <Content>
                   <Grid>
                     <Row size={1} style={styles.prefsContainer}>  
@@ -407,35 +401,6 @@ export class Preferences extends Component {
                      
                   </Modal>
                </Content>
-=======
-               <View style={styles.container}>
-                    <View style={styles.mainContainer}>
-
-                      <View style={styles.prefsLabelContainer}>
-                         <Text style={styles.prefsLabel}>
-                            Preferences
-                         </Text>
-                      </View>
-
-                      <View style={styles.prefsBottomContainer}>
-                        <View style={styles.insideContainer}>
-
-                          <View style={styles.profileContainer}>
-                            <Text style={styles.prefsLabel}>
-                            Profile
-                            </Text>
-                          </View>
-
-                          <View style={styles.prefContainer}>
-                            
-                          </View>
-
-                        </View>
-                      </View>
-
-                    </View>
-               </View>
->>>>>>> 6e913c6870bcc02a97e9909e32cc9ad08e5b9f0f
             </Container>
         );
     }
