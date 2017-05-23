@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import * as Progress from 'react-native-progress';
 import Quest from '../helpers/Quests';
+
 const ds = new ListView.DataSource({
   rowHasChanged: (r1, r2) => r1 !== r2,
   sectionHeaderHasChanged: (s1, s2) => s1 !== s2
@@ -123,8 +124,8 @@ export class Logs extends Component {
 
   renderSectionHeader(sectionData, sectionID) {
     return(
-      <View style={styles.categoryContainer}>
-        <View style={styles.categoryNameContainer}>
+      <View>
+        <View>
             <Text style={{
                 fontSize: 17.5,
                 fontFamily: 'Pixel-Noir Caps',
