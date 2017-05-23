@@ -88,5 +88,57 @@ User.lvlDown = () => {
       user.level = newLvl
   });
 }
+User.getAvatar = () => {
+  let avt = realm.objects('User')[0].avatar;
+  return avt;
+}
+User.updateAcct = (data) => {
+  console.log(data);
+  let user = realm.objects('User')[0];
+  realm.write(() => { 
+      user.avatar = data.avatar,
+      user.name = data.name
+  });
+}
+User.checkPref = (data) => {
+  let interest = realm.objects('User')[0].interest;
+  return interest.includes(data);
+}
+User.addPref = (data) => {
+  let user = realm.objects('User')[0];
+  let interest = user.interest;
+  let interestArray = interest.split(',');
+  console.log(interestArray);
+  let newInterest = _.concat(interestArray,data);
+  newInterest = newInterest.join();
+  console.log(newInterest);
+  realm.write(() => { 
+      user.interest = newInterest
+  });
+}
+User.removePref = (data) => {
+  let user = realm.objects('User')[0];
+  let interest = user.interest;
+  let interestArray = interest.split(',');
+  console.log(interestArray);
+  _.pull(interestArray, data);
+  let newInterest = interestArray.join();
+  console.log(newInterest);
+  realm.write(() => { 
+      user.interest = newInterest
+  });
+}
+User.getPref = () => {
+  let user = realm.objects('User')[0];
+  let interest = user.interest;
+  let interestArray = interest.split(',');
+  if(interestArray.length == 1) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
+
 
 module.exports = User;

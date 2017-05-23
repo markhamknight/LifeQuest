@@ -151,15 +151,15 @@ Initials.initializeTasks = () => {
 }
 Initials.initializeUser = () => {
     let user = realm.objects('User');
-  /*  realm.write(() => {
+    realm.write(() => {
         realm.delete(user);
-    });*/
+    });
     if(!user.length) {
         realm.write(() => {
         //realm.delete(user);
             realm.create('User', {
                 name: 'Douchebag',
-                avatar: '../assets/images/avatars/avatar1.jpg',
+                avatar: 'avatar1',
                 level: 1,
                 interest: 'chores,education,recreation,social,health',
                 hp:1,
