@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image, ListView, TouchableOpacity, Modal, TextInput} from 'react-native';
-import { Container, Content, Thumbnail, Button, Badge, Form, Item ,Label, Input} from 'native-base';
+import { Container, Content, Thumbnail, Button, Badge, Toast} from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import * as Progress from 'react-native-progress';
@@ -141,6 +141,12 @@ export class Preferences extends Component {
         this.setState({
           modalVisible: false,
         });
+        Toast.show({
+              text: 'Account Updated',
+              position: 'bottom',
+              buttonText: 'Ok',
+              duration: 1000,
+            });
       }
     }
     updatePreference(data) {
@@ -150,9 +156,21 @@ export class Preferences extends Component {
             alert('Must have at least 1 interest');
           } else {
             User.removePref(data);
+            Toast.show({
+              text: 'Interest Removed',
+              position: 'bottom',
+              buttonText: 'Ok',
+              duration: 1000,
+            });
           }
         } else {
           User.addPref(data);
+          Toast.show({
+              text: 'Interest Added',
+              position: 'bottom',
+              buttonText: 'Ok',
+              duration: 1000,
+            });
         }
         this.setState({
 
@@ -192,7 +210,7 @@ export class Preferences extends Component {
             <Container>
                <Content>
                   <Grid>
-                    <Row size={1} style={styles.prefsContainer}>  
+                    <Row size={1} style={styles.prefsLabelContainer}>  
                        <Text style={styles.prefsLabel}>  
                           Preferences  
                        </Text>  
