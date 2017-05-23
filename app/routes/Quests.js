@@ -188,12 +188,20 @@ export class Quests extends Component {
     }
     componentWillMount() {
       this.setBackgroundImage();
+      if(Quest.getQuestsForToday().length == 0) {
+          Quest.updateMissedQuests();
+          Tasks.generateTasks();
+      } 
     }
     componentWillUnmount() {
       console.log('unmounting');
     }
     componentWillReceiveProps(nextProps) {
       this.setBackgroundImage();
+      if(Quest.getQuestsForToday().length == 0) {
+          Quest.updateMissedQuests();
+          Tasks.generateTasks();
+      } 
     }
     undoQuest(id,qid){
       var copy = this.state.buttonPressed;
@@ -202,9 +210,6 @@ export class Quests extends Component {
         id: qid,
         status: 'ongoing',
       };
-      this.setState({
-          buttonPressed: copy,
-      });
       Quest.updateQuest(data);
       if(this.state.levelUp) {
         this.setState({
@@ -270,6 +275,9 @@ export class Quests extends Component {
           User.updateProgress(updateData);
           User.lvlUp();
       } else {
+          this.setState({
+             levelUp: false,
+          });
           let updateData = {
             mana: this.state.manaProgress,
             hp: this.state.hpProgress,
@@ -312,6 +320,9 @@ export class Quests extends Component {
           User.updateProgress(updateData);
           User.lvlUp();
       } else {
+         this.setState({
+             levelUp: false,
+          });
           let updateData = {
               mana: newMana,
               hp: this.state.hpProgress,
