@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
       borderColor: '#6080f8',
       backgroundColor: rgb(32, 72, 104,0.9),
       flexDirection: 'row',
+      flex: 1,
    },
    bottomContainer: {
     backgroundColor: rgb(32, 72, 104,0.9),
@@ -25,6 +26,7 @@ const styles = StyleSheet.create({
     borderColor: '#6080f8',
     alignItems: 'center',
     justifyContent: 'center',
+    flex: 10
   },
    questLogsLabel: {
       fontFamily: 'Pixel-Noir Caps',
@@ -68,6 +70,12 @@ const styles = StyleSheet.create({
       textAlign: 'center',
       height: 260
 
+   },
+
+   container: {
+    flex: 1,
+    flexDirection: 'column',
+
    }
 
 
@@ -83,101 +91,115 @@ export class Logs extends Component {
     render() {
         return (
             <Container>
-               <Content>
+                  <View style={styles.container}>
                       <Row size={1} style={styles.questsLogsContainer}>
                          <Text style={styles.questLogsLabel}>
                             Quest Logs
                          </Text>
                       </Row>
 
-                      <Row style={styles.bottomContainer}>
-                        <Row>
-                        <Grid>
-                          <Col size={1}>
-                            <Progress.Pie progress={0.1} size={50}  size={110}/>
-                             <Text style={styles.gridLabel}>
-                                
-                            </Text>
-                          </Col>
-                          <Col size={1} >
-                            <Progress.Pie progress={0.5} size={50} showsText={true} size={110}/>
-                            <Text style={styles.gridLabel}>
-                                
-                            </Text>
-                          </Col>
-                          <Col size={1}>
-                            <Progress.Pie progress={0.75} size={50} showsText={true} size={110}/>
-                            <Text style={styles.gridLabel}>
-                                
-                            </Text>
-                          </Col>
-                        </Grid>
-                      </Row>
+                      <Row size={1} style={styles.bottomContainer}>
+                        <Row size={1}>
+                          <Grid>
+                            <Col size={1}>
+                              <Progress.Pie progress={0.1} size={50}  size={110}/>
+                               
+                            </Col>
+                            <Col size={1} >
+                              <Progress.Pie progress={0.5} size={50} showsText={true} size={110}/>
+                              
+                            </Col>
+                            <Col size={1}>
+                              <Progress.Pie progress={0.75} size={50} showsText={true} size={110}/>
+                              
+                            </Col>
+                          </Grid>
+                        </Row>
                      
-                      <Row>
-                         <Col size={1}>
+                        <Row size={3}>
+                           <Col size={1}>
+                              <View>
+                                <Text style={styles.bottomLabel}>
+                                  Completed
+                                </Text>
+                                <View>
+                                  <Text style={styles.taskList}>
+                                    
+                                    Completed Quests Here
+
+                                  </Text>
+                                </View>
+                                   <View>
+                                  <Text style={styles.taskList}>
+                                    
+                                    Completed Quests Here
+
+                                  </Text>
+                                </View>
+                                   <View>
+                                  <Text style={styles.taskList}>
+                                    
+                                    Completed Quests Here
+
+                                  </Text>
+                                </View>
+                                   <View>
+                                  <Text style={styles.taskList}>
+                                    
+                                    Completed Quests Here
+
+                                  </Text>
+                                </View>
+                                   <View>
+                                  <Text style={styles.taskList}>
+                                    
+                                    Completed Quests Here
+
+                                  </Text>
+                                </View>
+                                   <View>
+                                  <Text style={styles.taskList}>
+                                    
+                                    Completed Quests Here
+
+                                  </Text>
+                                </View>
+
+                              </View>
+                            </Col>
+                          <Col size={1}>
                             <View>
                               <Text style={styles.bottomLabel}>
-                                Completed
+                                Missed
                               </Text>
+                              <View>
+                                  <Text style={styles.taskList}>
+                                    
+                                    Missed Quests Here
+
+                                  </Text>
+                                </View>
                             </View>
                           </Col>
-                        <Col size={1}>
-                          <View>
-                            <Text style={styles.bottomLabel}>
-                              Missed
-                            </Text>
-                          </View>
-                        </Col>
 
-                        <Col size={1}>
-                          <View>
-                            <Text style={styles.bottomLabel}>
-                            Skipped
-                            </Text>
-                          </View>
-                        </Col>
-                      </Row>
+                          <Col size={1}>
+                            <View>
+                              <Text style={styles.bottomLabel}>
+                              Skipped
+                              </Text>
+                              <View>
+                                  <Text style={styles.taskList}>
+                                    
+                                    Skipped Quests Here
 
-                      <Row size={3}>
-                        <Col size={1}>
-                          <View>
-                            <Text style={styles.taskList}>
-                              
-                              Completed Tasks
-
-                            </Text>
-
-                          </View>
-                        </Col>
-
-                        <Col size={1}>
-                          <View>
-                            <Text style={styles.taskList}>
-                            
-                            Missed Tasks
-
-                            </Text>
-                          </View>
-                        </Col>
-
-                        <Col size={1}>
-                          <View>
-                            <Text style={styles.taskList}>
-                            
-                            Skipped Tasks
-
-                            </Text>
-                          </View>
-                        </Col>
-
-
-                      </Row>
-
-
-                
+                                  </Text>
+                                </View>
+                            </View>
+                          </Col>
+                        </Row>
+               
                 </Row>
-              </Content>
+              </View>
             </Container>
         );
     }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image, ListView, TouchableOpacity} from 'react-native';
-import { Container, Content, Thumbnail, Button, Badge } from 'native-base';
+import { Container, Content, Thumbnail, Button, Badge, ListItem, CheckBox} from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import * as Progress from 'react-native-progress';
@@ -10,7 +10,7 @@ const ds = new ListView.DataSource({
   sectionHeaderHasChanged: (s1, s2) => s1 !== s2
 });
 const styles = StyleSheet.create({
-   prefsContainer: {
+   prefsLabelContainer: {
       padding: 20,
       alignItems: 'center',
       justifyContent: 'center',
@@ -18,15 +18,8 @@ const styles = StyleSheet.create({
       borderColor: '#6080f8',
       backgroundColor: rgb(32, 72, 104,0.9),
       flexDirection: 'row',
+      flex:1
    },
-   bottomContainer: {
-    backgroundColor: rgb(32, 72, 104,0.9),
-    flexDirection: 'column',
-    borderWidth: 5,
-    borderColor: '#6080f8',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
    prefsLabel: {
       fontFamily: 'Pixel-Noir Caps',
       fontSize: 25,
@@ -34,34 +27,6 @@ const styles = StyleSheet.create({
       textAlign: 'center',
 
    },
-   questButton: {
-      padding: 20,
-   },
-   questButtonText: {
-      fontFamily: 'Pixel-Noir Skinny Caps',
-      fontSize: 6,
-      color: 'black'
-   },
-
-   gridContent:{
-    justifyContent:'center',
-    alignItems:'center',
-   },
-
-   gridLabel:{
-      fontFamily: 'Pixel-Noir Skinny Caps',
-      fontSize: 6,
-      color: 'white',
-      textAlign: 'center'
-  },
-
-   bottomLabel:{
-      fontFamily: 'Pixel-Noir Skinny Caps',
-      fontSize: 6,
-      color: 'white',
-      textAlign: 'center'
-   },
-
    prefsBottomContainer:{
       padding: 20,
       alignItems: 'center',
@@ -70,9 +35,36 @@ const styles = StyleSheet.create({
       borderColor: '#6080f8',
       backgroundColor: rgb(32, 72, 104,0.9),
       flexDirection: 'row',
-      height: 420
+      height: 420,
+      flex:6
+
+   },
+
+  mainContainer:{
+    flex: 1,
+    flexDirection:'column',
+
+
+   },
+
+  profileContainer:{
+    flex:1,
+    
+      
+
+   },
+
+   prefContainer:{
+    flex:3,
+   },
+
+    container: {
+    flex: 1,
+    flexDirection: 'column',
 
    }
+
+
 
 
 
@@ -87,20 +79,33 @@ export class Preferences extends Component {
     render() {
         return (
             <Container>
-               <Content>
-                      <Row size={1} style={styles.prefsContainer}>
+               <View style={styles.container}>
+                    <View style={styles.mainContainer}>
+
+                      <View style={styles.prefsLabelContainer}>
                          <Text style={styles.prefsLabel}>
                             Preferences
                          </Text>
-                      </Row>
+                      </View>
 
-                      <Row style={styles.prefsBottomContainer}>
-                        <Text>
-                          Looool
-                        </Text>
-                      </Row>
-                      
-               </Content>
+                      <View style={styles.prefsBottomContainer}>
+                        <View style={styles.insideContainer}>
+
+                          <View style={styles.profileContainer}>
+                            <Text style={styles.prefsLabel}>
+                            Profile
+                            </Text>
+                          </View>
+
+                          <View style={styles.prefContainer}>
+                            
+                          </View>
+
+                        </View>
+                      </View>
+
+                    </View>
+               </View>
             </Container>
         );
     }

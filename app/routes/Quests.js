@@ -4,7 +4,6 @@ import { Container, Content, Thumbnail, Button, Badge } from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import * as Progress from 'react-native-progress';
-import timer from 'react-native-timer';
 import Init from '../helpers/Initial';
 import Tasks from '../helpers/Tasks';
 import Quest from '../helpers/Quests';
