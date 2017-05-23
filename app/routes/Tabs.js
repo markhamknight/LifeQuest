@@ -4,6 +4,7 @@ import { TabViewAnimated, TabBar } from 'react-native-tab-view';
 import Ionicons from 'react-native-vector-icons/FontAwesome';
 import Quests from './Quests';
 import Logs from './Logs';
+import Misc from '../helpers/Misc';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -111,7 +112,9 @@ export default class Tabs extends Component {
   renderScene = ({ route }) => {
     switch (route.key) {
     case '1':
-      return <Quests/>;
+      let image = Misc.getBackgroundImage();
+      console.log(image);
+      return <Quests data={image}/>;
     case '2':
       return <Logs />;
     case '3':

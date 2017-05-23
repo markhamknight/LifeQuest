@@ -4,9 +4,12 @@ import { Container, Content, Thumbnail, Button, Badge } from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import * as Progress from 'react-native-progress';
+import timer from 'react-native-timer';
 import Init from '../helpers/Initial';
 import Tasks from '../helpers/Tasks';
 import Quest from '../helpers/Quests';
+import Misc from '../helpers/Misc';
+import User from '../helpers/User';
 const ds = new ListView.DataSource({
   rowHasChanged: (r1, r2) => r1 !== r2,
   sectionHeaderHasChanged: (s1, s2) => s1 !== s2
@@ -157,19 +160,41 @@ export class Quests extends Component {
     constructor(props) {
       super(props);
       this.state = {
-        xpProgress: 0.5,
-        hpProgress: 0.75,
-        manaProgress: 0.25,
-        buttonPressed: [true,false,true,false,false],
+        xpProgress: User.getXp(),
+        hpProgress: User.getHp(),
+        manaProgress:User.getMana(),
+        tmpHp: '',
+        tmpMana: '',
+        levelUp: false,
+        backgroundImage: require('../assets/images/backgrounds/lateafternoon.png'),
+        buttonPressed: Quest.getQuestsForTodayButtons(),
         dataSource: ds.cloneWithRows(Quest.getQuestsForToday()),
       };
       this.undoQuest = this.undoQuest.bind(this);
       this.completeQuest = this.completeQuest.bind(this);
       this.skipQuest = this.skipQuest.bind(this);
+      this.setBackgroundImage = this.setBackgroundImage.bind(this);
       this.renderButtons = this.renderButtons.bind(this);
+      //Quest.deleteQuests();
+      console.log(Quest.allQuests());
+      console.log(User.getHp());
+      console.log(User.getXp());
+      console.log(User.getMana());
       Init.initializeTasks();
       Init.initializeUser();
-      //Tasks.generateTasks();
+      if(Quest.getQuestsForToday().length == 0) {
+          Quest.updateMissedQuests();
+          Tasks.generateTasks();
+      } 
+    }
+    componentWillMount() {
+      this.setBackgroundImage();
+    }
+    componentWillUnmount() {
+      console.log('unmounting');
+    }
+    componentWillReceiveProps(nextProps) {
+      this.setBackgroundImage();
     }
     undoQuest(id,qid){
       var copy = this.state.buttonPressed;
@@ -178,12 +203,40 @@ export class Quests extends Component {
         id: qid,
         status: 'ongoing',
       };
-      Quest.updateQuest(data);
       this.setState({
-        buttonPressed: copy,
-        dataSource: ds.cloneWithRows(Quest.getQuestsForToday()),
-        xpProgress: this.state.xpProgress-0.1,
-      })
+          buttonPressed: copy,
+      });
+      Quest.updateQuest(data);
+      if(this.state.levelUp) {
+        this.setState({
+          buttonPressed: copy,
+          dataSource: ds.cloneWithRows(Quest.getQuestsForToday()),
+          xpProgress: 0.9,
+          levelUp: false,
+          manaProgress:this.state.tmpMana,
+          hpProgress: this.state.tmpHp,
+        })
+        let updateData = {
+          mana: this.state.tmpMana,
+          hp: this.state.tmpHp,
+          xp: 0.9,
+        };
+        User.updateProgress(updateData);
+        User.lvlDown();
+      } else {
+        let newXp = this.state.xpProgress-0.1;
+        this.setState({
+          buttonPressed: copy,
+          xpProgress: newXp,
+          levelUp: false,
+        })
+        let updateData = {
+          mana: this.state.manaProgress,
+          hp: this.state.hpProgress,
+          xp: newXp,
+        };
+        User.updateProgress(updateData);
+      }
     };
     completeQuest(id,qid){
       var copy = this.state.buttonPressed;
@@ -193,11 +246,38 @@ export class Quests extends Component {
         status: 'completed',
       };
       Quest.updateQuest(data);
+      let newXp = this.state.xpProgress+0.1;
+      console.log(newXp)
       this.setState({
         buttonPressed: copy,
         dataSource: ds.cloneWithRows(Quest.getQuestsForToday()),
-        xpProgress: this.state.xpProgress+0.1,
+        xpProgress: newXp,
       })
+      if(newXp >= 1) {
+          alert('level up');
+          this.setState({
+              tmpHp: this.state.hpProgress,
+              tmpMana: this.state.manaProgress,
+              xpProgress: 0,
+              manaProgress: 1,
+              hpProgress: 1,
+              levelUp: true,
+          });
+          let updateData = {
+            mana: 1,
+            hp: this.state.hpProgress,
+            xp: 0,
+          };
+          User.updateProgress(updateData);
+          User.lvlUp();
+      } else {
+          let updateData = {
+            mana: this.state.manaProgress,
+            hp: this.state.hpProgress,
+            xp: newXp,
+          };
+          User.updateProgress(updateData);
+      }
     };
     skipQuest(id,qid){
       var copy = this.state.buttonPressed;
@@ -206,14 +286,68 @@ export class Quests extends Component {
         id: qid,
         status: 'skipped',
       };
+      let newXp = this.state.xpProgress+0.1;
+      let newMana = this.state.manaProgress-0.1;
       Quest.updateQuest(data);
       this.setState({
         buttonPressed: copy,
         dataSource: ds.cloneWithRows(Quest.getQuestsForToday()),
-        xpProgress: this.state.xpProgress+0.1,
-        manaProgress: this.state.manaProgress-0.1,
+        xpProgress: newXp,
+        manaProgress: newMana,
       })
+      if(newXp >= 1) {
+          alert('level up');
+          this.setState({
+              tmpHp: this.state.hpProgress,
+              tmpMana: newMana,
+              xpProgress: 0,
+              manaProgress: 1,
+              hpProgress: 1,
+              levelUp: true,
+          });
+          let updateData = {
+            mana: 1,
+            hp: 1,
+            xp: 0,
+          };
+          User.updateProgress(updateData);
+          User.lvlUp();
+      } else {
+          let updateData = {
+              mana: newMana,
+              hp: this.state.hpProgress,
+              xp: newXp,
+            };
+            User.updateProgress(updateData);
+      }
     };
+    setBackgroundImage() {
+      //let image = Misc.getBackgroundImage();
+      let image = this.props.data;
+      console.log(image);
+      let src;
+      if(image == 'morning') {
+          src = require('../assets/images/backgrounds/morning.png');
+      } else if(image == 'latemorning') {
+          src = require('../assets/images/backgrounds/latemorning.png');
+      } else if(image == 'afternoon') {
+          src = require('../assets/images/backgrounds/afternoon.png');
+      } else if(image == 'lateafternoon') {
+          src = require('../assets/images/backgrounds/lateafternoon.png');
+      } else if(image == 'evening') {
+          src = require('../assets/images/backgrounds/evening.png');
+      } else if(image == 'latevening') {
+          alert('wew');
+          src = require('../assets/images/backgrounds/latevening.png');
+      } else if(image == 'night') {
+          src = require('../assets/images/backgrounds/night.png');
+      } else if(image == 'latenight') {
+          src = require('../assets/images/backgrounds/latenight.png');
+      }
+      this.setState({
+        backgroundImage: src,
+      })
+    }
     renderButtons(rowID,questID) {
       var id = rowID;
       var qid = questID;
@@ -283,14 +417,14 @@ export class Quests extends Component {
               <Content>
                 <Grid>    
                    <Row size={1}>
-                      <Image source={require('../assets/images/backgrounds/lateafternoon.png')} style={styles.bg} resizeMode="cover">  
+                      <Image source={this.state.backgroundImage} style={styles.bg} resizeMode="cover">  
                            <Col size={1} style={styles.avatarContainer}>
                               <Image source={require('../assets/images/avatars/avatar1.jpg')} style={styles.avatar} resizeMode="contain"/>  
                               <Text style={styles.playerName}>
-                                Markhamknight
+                                {User.getName()}
                               </Text>
                               <Text style={styles.currentLvl}>
-                                Level 1
+                                Level {User.getLvl()}
                               </Text>
                             </Col>      
                             <Col size={2}>      

@@ -52,6 +52,21 @@ Quests.getQuestsForToday = () => {
     return quests;
 }
 
+Quests.getQuestsForTodayButtons = () => {
+    let quests = [];
+    let currentDay = "'"+today+"'";
+    let filter = "date = "+ currentDay;
+    let currentQuests = realm.objects('Quests').filtered(filter);
+    for(let i= 0; i<currentQuests.length;i++) {
+        if(currentQuests[i].status == 'ongoing') {
+            quests.push(false);
+        } else {
+            quests.push(true);
+        }
+    }
+    return quests;
+}
+
 Quests.updateQuest = (data) => {
     let filter = "id = "+data.id;
     let quest = realm.objects('Quests').filtered(filter)[0];
@@ -73,5 +88,39 @@ Quests.addQuest = (data) => {
         });
     });
 }
+Quests.allQuests = () => {
+    quests = [];
+    let allQuests = realm.objects('Quests');
+    for(let i= 0; i<allQuests.length;i++) {
+        quests.push(allQuests[i]);
+    }
+    return quests;
+}
+Quests.deleteQuests = () => {
+    let allQuests = realm.objects('Quests');
+    realm.write(() => {
+        realm.delete(allQuests);
+    })
+}
+Quests.updateMissedQuests = () => {
+    let yest = moment().subtract(1, 'days').format('YYYY-MM-DD');
+    console.log(yest);
+    let yesterday = "'"+yest+"'";
+    let filter = "date = "+ yesterday;
+    let currentQuests = realm.objects('Quests').filtered(filter);
+    console.log(currentQuests);
+    for(let i= 0; i<currentQuests.length;i++) {
+        if(currentQuests[i].status == 'ongoing') {
+            let filter2 = "id = "+currentQuests[i].id;
+            let quest = realm.objects('Quests').filtered(filter2)[0];
+            realm.write(() => { 
+                quest.status = 'missed';
+            })
+        }
+    }
+    console.log(currentQuests);
+
+}
+
 
 module.exports = Quests;
