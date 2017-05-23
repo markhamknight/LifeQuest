@@ -4,6 +4,8 @@ import { TabViewAnimated, TabBar } from 'react-native-tab-view';
 import Ionicons from 'react-native-vector-icons/FontAwesome';
 import Quests from './Quests';
 import Logs from './Logs';
+import Preferences from './Preferences';
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -113,9 +115,9 @@ export default class Tabs extends Component {
     case '1':
       return <Quests/>;
     case '2':
-      return <Logs />;
+      return <Logs/>
     case '3':
-      return <View style={[ styles.page, { backgroundColor: '#4caf50' } ]} />;
+      return <Preferences/>;
     default:
       return null;
     }
